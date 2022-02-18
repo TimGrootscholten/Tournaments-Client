@@ -12,6 +12,11 @@ export class UserService implements IUserService {
     }
 
     createUser(user: UserDto) {
-        this.client.users(user);
+        this.client.usersPOST(user);
     }
+
+    getUser() {
+        this.client.usersGET();
+    }
+
 }

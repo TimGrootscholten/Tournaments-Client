@@ -6,10 +6,18 @@ import Login from "./Pages/Login";
 import Registreren from "./Pages/Registreren";
 import Nav from "./Components/Nav";
 
+import Box from "@mui/material/Box";
+
 function App() {
   return (
-    <div className="App">
-      <Nav />
+    <Box
+      className="app"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
       <BrowserRouter>
         <Routes>
           <Route path="/">
@@ -19,7 +27,8 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </div>
+      <Nav />
+    </Box>
   );
 }
 

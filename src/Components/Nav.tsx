@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { Tabs, Tab } from "@mui/material";
 // import { PhoneIcon, FavoriteIcon, PersonPinIcon } from "@mui/icons-material";
-import PhoneIcon from "@mui/icons-material/Phone";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import ViewAgenda from "@mui/icons-material/ViewAgenda";
+import SportsSoccer from "@mui/icons-material/SportsSoccer";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
+import Event from "@mui/icons-material/Event";
+
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
 
 const Nav = () => {
   const [value, setValue] = useState(0);
@@ -12,13 +19,14 @@ const Nav = () => {
     setValue(newValue);
   };
   return (
-    <div>
+    <React.Fragment>
       <Tabs value={value} onChange={handleChange} aria-label="icon label tabs example">
-        <Tab icon={<PhoneIcon />} label="RECENTS" />
-        <Tab icon={<FavoriteIcon />} label="FAVORITES" />
+        <Tab icon={<Event />} label="Events" />
+        <Tab icon={<ViewAgenda />} label="stand" />
+        <Tab icon={<SportsSoccer />} label="FAVORITES" />
         <Tab icon={<PersonPinIcon />} label="NEARBY" />
       </Tabs>
-    </div>
+    </React.Fragment>
   );
 };
 

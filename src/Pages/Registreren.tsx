@@ -33,6 +33,7 @@ const Registreren = () => {
       password: password,
     });
     let userServices = new UserService();
+    userServices.getUser();
     userServices.createUser(user);
   };
   return (
