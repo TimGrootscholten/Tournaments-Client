@@ -6,25 +6,34 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
   Container,
 } from "@mui/material";
+import { Link } from "react-router-dom";
+
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { UserDto } from "../api/tournamentapiclient";
+import { UserService } from "../services/user.service";
 
 const Registreren = () => {
-  const [formData, setFormData] = useState({});
+  const [firstname, setFistname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    setFormData({
-      email: data.get("email"),
-      password: data.get("password"),
-      remember: data.get("remember"),
+
+    let user = new UserDto({
+      email: email,
+      firstName: firstname,
+      lastName: lastname,
+      password: password,
     });
+    let userServices = new UserService();
+    userServices.createUser(user);
   };
   return (
     <div>
@@ -42,7 +51,7 @@ const Registreren = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Registreren
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -53,8 +62,10 @@ const Registreren = () => {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Voornaam"
                   autoFocus
+                  onChange={(e) => setFistname(e.target.value)}
+                  value={firstname}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -62,9 +73,11 @@ const Registreren = () => {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label="Achternaam"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={(e) => setLastname(e.target.value)}
+                  value={lastname}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -72,9 +85,11 @@ const Registreren = () => {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="E-mailadres"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -82,27 +97,21 @@ const Registreren = () => {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Wachtwoord"
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                 />
               </Grid>
             </Grid>
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign Up
+              Registreren
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+                <Link to="/login">Heb je al een account? Inloggen dan maar.</Link>
               </Grid>
             </Grid>
           </Box>
