@@ -8,7 +8,7 @@
 // ReSharper disable InconsistentNaming
 // @ts-nocheck
 
-export class Client {
+export class TeamV1Client {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -21,7 +21,51 @@ export class Client {
     /**
      * @return Success
      */
-    usersGET(): Promise<void> {
+    getTeam(): Promise<void> {
+        let url_ = this.baseUrl + "/api/v1/teams";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetTeam(_response);
+        });
+    }
+
+    protected processGetTeam(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+}
+
+export class UserV1Client {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getUser(): Promise<void> {
         let url_ = this.baseUrl + "/api/v1/users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -32,11 +76,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUsersGET(_response);
+            return this.processGetUser(_response);
         });
     }
 
-    protected processUsersGET(response: Response): Promise<void> {
+    protected processGetUser(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -55,7 +99,7 @@ export class Client {
      * @param body (optional) 
      * @return Success
      */
-    usersPOST(body?: UserDto | undefined): Promise<void> {
+    createUser(body?: UserDto | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/v1/users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -70,11 +114,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUsersPOST(_response);
+            return this.processCreateUser(_response);
         });
     }
 
-    protected processUsersPOST(response: Response): Promise<void> {
+    protected processCreateUser(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {

@@ -1,22 +1,22 @@
-import { Client, UserDto } from "../api/tournamentapiclient";
+import { UserDto, UserV1Client } from "../api/tournamentapiclient";
 
 export interface IUserService {
     createUser(user: UserDto): any;
 }
 
 export class UserService implements IUserService {
-    private client: Client;
+    private userV1Client: UserV1Client;
 
     constructor() {
-        this.client = new Client('https://localhost:7174');
+        this.userV1Client = new UserV1Client('https://localhost:7174');
     }
 
     createUser(user: UserDto) {
-        this.client.usersPOST(user);
+        this.userV1Client.createUser(user);
     }
 
     getUser() {
-        this.client.usersGET();
+        this.userV1Client.getUser();
     }
 
 }
