@@ -20,14 +20,13 @@ function App() {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<Nav/>}/>
           <Route path="/">
-            <Route index element={<><Home /></>} />
-            {/* <Route element={<Nav/>} /> */}
+            <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="registreren" element={<Registreren />} />
           </Route>
         </Routes>
+        <Nav />
       </BrowserRouter>
     </Box>
   );
