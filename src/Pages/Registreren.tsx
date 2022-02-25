@@ -4,8 +4,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Grid,
   Box,
   Typography,
@@ -67,11 +65,14 @@ const Registreren = () => {
                   autoFocus
                   onChange={(e) => setFistname(e.target.value)}
                   value={firstname}
+              variant="standard"
+
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
+                  variant="standard"
                   fullWidth
                   id="lastName"
                   label="Achternaam"
@@ -90,12 +91,14 @@ const Registreren = () => {
                   name="email"
                   autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
+                  variant="standard"
                   value={email}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
+                  variant="standard"
                   fullWidth
                   name="password"
                   label="Wachtwoord"

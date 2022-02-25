@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 function App() {
   return (
     <Box
-      className="app"
+      className="app d-flex flex-column h-100"
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -20,14 +20,15 @@ function App() {
     >
       <BrowserRouter>
         <Routes>
+          <Route path="*" element={<Nav/>}/>
           <Route path="/">
-            <Route index element={<Home />} />
+            <Route index element={<><Home /></>} />
+            {/* <Route element={<Nav/>} /> */}
             <Route path="login" element={<Login />} />
             <Route path="registreren" element={<Registreren />} />
           </Route>
         </Routes>
       </BrowserRouter>
-      <Nav />
     </Box>
   );
 }

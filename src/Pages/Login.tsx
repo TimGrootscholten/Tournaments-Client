@@ -40,9 +40,6 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
           <Typography component="h1" variant="h5">
             Log in
           </Typography>
@@ -56,6 +53,7 @@ const Login = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              variant="standard"
             />
             <TextField
               margin="normal"
@@ -66,10 +64,8 @@ const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" name="remember" />}
-              label="Mij onthouden"
+              variant="standard"
+
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Inloggen

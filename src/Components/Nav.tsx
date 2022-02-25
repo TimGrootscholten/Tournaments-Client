@@ -1,32 +1,34 @@
 import React, { useState } from "react";
-import { Tabs, Tab } from "@mui/material";
-// import { PhoneIcon, FavoriteIcon, PersonPinIcon } from "@mui/icons-material";
-import ViewAgenda from "@mui/icons-material/ViewAgenda";
-import SportsSoccer from "@mui/icons-material/SportsSoccer";
-import PersonPinIcon from "@mui/icons-material/PersonPin";
-import Event from "@mui/icons-material/Event";
+import Box from '@mui/material/Box';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
+
 
 const Nav = () => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
   return (
-    <React.Fragment>
-      <Tabs value={value} onChange={handleChange} aria-label="icon label tabs example">
-        <Tab icon={<Event />} label="Events" />
-        <Tab icon={<ViewAgenda />} label="stand" />
-        <Tab icon={<SportsSoccer />} label="FAVORITES" />
-        <Tab icon={<PersonPinIcon />} label="NEARBY" />
-      </Tabs>
-    </React.Fragment>
+      <nav className="footer mt-auto d-flex justify-content-center">
+        <Box sx={{ width: 500 }}>
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      >
+        <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+        <BottomNavigationAction  component={Link}
+        to="/signal" label="Nearby" icon={<LocationOnIcon />}/>
+      </BottomNavigation>
+    </Box>
+      </nav>
   );
 };
 
