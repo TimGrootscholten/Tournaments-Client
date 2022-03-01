@@ -31,7 +31,6 @@ const Nav = () => {
     }
   }, [pathname]);
 
-  console.log(useLocation());
   return (
     <nav className="footer mt-auto">
       <Box className="w-100">
