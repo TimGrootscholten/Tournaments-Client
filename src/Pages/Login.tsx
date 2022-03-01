@@ -1,20 +1,12 @@
 import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Grid, Box, Typography, Container } from "@mui/material";
 
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState({});
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    setFormData({
-      email: data.get("email"),
-      password: data.get("password"),
-      remember: data.get("remember"),
-    });
   };
 
   return (
@@ -37,10 +29,10 @@ const Login = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="E-mailadres"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Gebruikersnaam"
+              name="username"
+              autoComplete="username"
               autoFocus
               variant="standard"
             />
