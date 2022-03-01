@@ -15,8 +15,6 @@ const App = () => {
     <Box
       className="app d-flex flex-column h-100"
       sx={{
-        display: "flex",
-        flexDirection: "column",
         minHeight: "100vh",
       }}
     >
