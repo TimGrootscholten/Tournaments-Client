@@ -33,7 +33,7 @@ const Nav = () => {
 
   console.log(useLocation());
   return (
-    <nav className="footer mt-auto d-flex justify-content-center">
+    <nav className="footer mt-auto">
       <Box className="w-100">
         <BottomNavigation
           showLabels
