@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { AccountCircle, SportsSoccer, DateRange, Home, Settings } from "@mui/icons-material";
+import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { AccountCircle, SportsSoccer, Home, Settings } from "@mui/icons-material";
 
 import { Link } from "react-router-dom";
 
@@ -13,7 +9,7 @@ const Nav = () => {
 
   return (
     <nav className="footer mt-auto d-flex justify-content-center">
-      <Box sx={{ width: 500 }}>
+      <Box className="w-100">
         <BottomNavigation
           showLabels
           value={value}

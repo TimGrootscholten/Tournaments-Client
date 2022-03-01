@@ -1,16 +1,5 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Grid,
-  Box,
-  Typography,
-  Container,
-} from "@mui/material";
+import { Button, CssBaseline, TextField, Grid, Box, Typography, Container } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "react-router-dom";
@@ -30,7 +19,7 @@ const Login = () => {
 
   return (
     <div>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Box
           sx={{
@@ -65,7 +54,6 @@ const Login = () => {
               id="password"
               autoComplete="current-password"
               variant="standard"
-
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Inloggen
