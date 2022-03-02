@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { Button, TextField, Box, Typography, Container } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const Permissie = () => {
   const [canSave, setCanSave] = useState(false);
-
+  const [wachtwoordAlert, setWachtwoordAlert] = useState(false);
   const columns: GridColDef[] = [{ field: "RoleName", headerName: "Permissiegroep", width: 300 }];
   const rows = [
     { id: 1, RoleName: "role speler" },
@@ -29,7 +41,7 @@ const Permissie = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box className="pt-4">
+      <Box className="pt-4 box-Permissie">
         <Typography component="h3" variant="h5" className="text-center">
           Zoek gebruiker
         </Typography>
@@ -42,7 +54,6 @@ const Permissie = () => {
             label="Gebruikersnaam"
             name="username"
             autoComplete="username"
-            autoFocus
             variant="standard"
           />
 
@@ -70,6 +81,33 @@ const Permissie = () => {
           </Button>
         </Box>
       </Box>
+      <Box>
+        <Button
+          onClick={() => setWachtwoordAlert(true)}
+          fullWidth
+          variant="contained"
+          color="warning"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          wachtwoord resetten
+        </Button>
+      </Box>
+      <Dialog open={wachtwoordAlert} keepMounted onClose={() => setWachtwoordAlert(false)}>
+        <DialogTitle>Weet u het zeker?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Het wachtwoord wordt veranderd naar "".
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setWachtwoordAlert(false)} color="error">
+            Annuleren
+          </Button>
+          <Button onClick={() => setWachtwoordAlert(false)} color="success">
+            Resetten
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

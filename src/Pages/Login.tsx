@@ -32,7 +32,6 @@ const Login = () => {
             label="Gebruikersnaam"
             name="username"
             autoComplete="username"
-            autoFocus
             variant="standard"
           />
           <TextField

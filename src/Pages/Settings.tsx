@@ -5,6 +5,7 @@ import Permissie from "../Components/Pages/Settings/Permissie";
 import Toernooien from "../Components/Pages/Settings/Toernooien";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "../Assets/css/settings.scss";
 
 const Settings = () => {
   type paramsType = {

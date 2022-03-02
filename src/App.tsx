@@ -5,20 +5,14 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Registreren from "./Pages/Registreren";
 import Nav from "./Components/Nav";
-
-import Box from "@mui/material/Box";
+import "./Assets/css/global.scss";
 import Settings from "./Pages/Settings";
 
 const App = () => {
   const [userData, setUserData] = useState({});
   return (
-    <Box
-      className="app d-flex flex-column h-100"
-      sx={{
-        minHeight: "100vh",
-      }}
-    >
-      <BrowserRouter>
+    <BrowserRouter>
+      <div className="content">
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
@@ -29,9 +23,9 @@ const App = () => {
             </Route>
           </Route>
         </Routes>
-        <Nav />
-      </BrowserRouter>
-    </Box>
+      </div>
+      <Nav />
+    </BrowserRouter>
   );
 };
 

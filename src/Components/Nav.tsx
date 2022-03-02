@@ -32,7 +32,7 @@ const Nav = () => {
   }, [pathname]);
 
   return (
-    <nav className="footer mt-auto">
+    <nav className="nav">
       <Box className="w-100">
         <BottomNavigation
           showLabels
