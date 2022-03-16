@@ -6,7 +6,12 @@ import Login from "./Pages/Login";
 import Registreren from "./Pages/Registreren";
 import Nav from "./Components/Nav";
 import "./Assets/css/global.scss";
-import Settings from "./Pages/Settings";
+import Settings from "./Pages/Settings/Settings";
+import Toernooien from "./Pages/Settings/Toernooien";
+import Account from "./Pages/Settings/Account";
+import Permissie from "./Pages/Settings/Permissie";
+import ToernooiAdd from "./Pages/Settings/ToernooiAdd";
+import ToernooiEdit from "./Pages/Settings/ToernooiEdit";
 
 const App = () => {
   const [userData, setUserData] = useState({});
@@ -18,8 +23,43 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="registreren" element={<Registreren />} />
-            <Route path="settings" element={<Settings />}>
-              <Route path=":settingpage" element={<Settings />} />
+
+            <Route path="settings">
+              <Route
+                index
+                element={
+                  <>
+                    <Settings /> <Account />
+                  </>
+                }
+              />
+              <Route
+                path="account"
+                element={
+                  <>
+                    <Settings /> <Account />
+                  </>
+                }
+              />
+              <Route
+                path="permissie"
+                element={
+                  <>
+                    <Settings /> <Permissie />
+                  </>
+                }
+              />
+              <Route
+                path="toernooien"
+                element={
+                  <>
+                    <Settings /> <Toernooien />
+                  </>
+                }
+              >
+                <Route path="add" element={<ToernooiAdd />} />
+                <Route path="view:id" element={<ToernooiEdit />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

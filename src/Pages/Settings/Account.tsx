@@ -55,16 +55,13 @@ const Account = () => {
   };
   const rows = [createData("role 2", 159), createData("role 1", 237)];
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="md">
       <Box
         sx={{
           marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" className="text-center">
           Gegevens
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} className="mt-3">

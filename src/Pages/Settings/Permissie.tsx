@@ -10,7 +10,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Slide,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
@@ -40,8 +39,13 @@ const Permissie = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box className="pt-4 box-Permissie">
+    <Container maxWidth="md" component="main">
+      <Box
+        className="box-Permissie"
+        sx={{
+          marginTop: 8,
+        }}
+      >
         <Typography component="h3" variant="h5" className="text-center">
           Zoek gebruiker
         </Typography>
