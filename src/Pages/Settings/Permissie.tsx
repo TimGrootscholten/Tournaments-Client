@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Search } from "@mui/icons-material";
 
 const Permissie = () => {
   const [canSave, setCanSave] = useState(false);
@@ -62,7 +63,7 @@ const Permissie = () => {
           />
 
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Zoeken
+            Zoeken <Search />
           </Button>
         </Box>
         <Box component="form" onSubmit={handleSubmitGebruikerPermissie} style={{ height: 400 }}>

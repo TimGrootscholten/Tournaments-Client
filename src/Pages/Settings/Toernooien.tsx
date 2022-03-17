@@ -13,10 +13,13 @@ import {
   Paper,
   Dialog,
   DialogActions,
-  DialogContent,
   DialogContentText,
+  DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { DeleteOutline, Edit } from "@mui/icons-material";
+
+import { Link } from "react-router-dom";
 
 const Toernooien = () => {
   const [verwijderDialog, setVerwijderDialog] = useState(false);
@@ -43,7 +46,7 @@ const Toernooien = () => {
         <Typography component="h1" variant="h5">
           Toernooien
         </Typography>
-        <Button fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
+        <Button fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }} component={Link} to="add">
           Nieuw
         </Button>
         <TableContainer component={Paper}>
@@ -62,8 +65,13 @@ const Toernooien = () => {
                     {row.naam}
                   </TableCell>
                   <TableCell>
-                    <Button variant="contained" color="warning">
-                      X
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      component={Link}
+                      to={`edit/${row.id}`}
+                    >
+                      <Edit />
                     </Button>
                   </TableCell>
                   <TableCell>
@@ -72,7 +80,7 @@ const Toernooien = () => {
                       variant="contained"
                       onClick={() => deleteToernooi(row.id)}
                     >
-                      X
+                      <DeleteOutline />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -82,15 +90,12 @@ const Toernooien = () => {
         </TableContainer>
       </Box>
       <Dialog open={verwijderDialog} keepMounted onClose={() => setVerwijderDialog(false)}>
-        <DialogTitle>Weet u het zeker?</DialogTitle>
-        <DialogContent>
-          {/* <DialogContentText id="alert-dialog-slide-description"></DialogContentText> */}
-        </DialogContent>
+        <DialogTitle>Weet u het zeker dat u toernooi 2 wilt verwijderen?</DialogTitle>
         <DialogActions>
+          <Button onClick={() => setVerwijderDialog(false)}>Annuleren</Button>
           <Button onClick={() => setVerwijderDialog(false)} color="error">
-            Annuleren
+            Verwijderen
           </Button>
-          <Button onClick={() => setVerwijderDialog(false)}>Verwijderen</Button>
         </DialogActions>
       </Dialog>
     </Container>

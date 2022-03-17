@@ -49,16 +49,31 @@ const App = () => {
                   </>
                 }
               />
-              <Route
-                path="toernooien"
-                element={
-                  <>
-                    <Settings /> <Toernooien />
-                  </>
-                }
-              >
-                <Route path="add" element={<ToernooiAdd />} />
-                <Route path="view:id" element={<ToernooiEdit />} />
+              <Route path="toernooien">
+                <Route
+                  index
+                  element={
+                    <>
+                      <Settings /> <Toernooien />
+                    </>
+                  }
+                />
+                <Route
+                  path="add"
+                  element={
+                    <>
+                      <Settings /> <ToernooiAdd />
+                    </>
+                  }
+                />
+                <Route
+                  path="edit/:id"
+                  element={
+                    <>
+                      <Settings /> <ToernooiEdit />
+                    </>
+                  }
+                />
               </Route>
             </Route>
           </Route>
