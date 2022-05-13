@@ -33,6 +33,7 @@ const Login: React.FunctionComponent<Props> = ({
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const userServices = new UserService();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +43,6 @@ const Login: React.FunctionComponent<Props> = ({
       username: username,
       password: password,
     });
-    let userServices = new UserService();
 
     let apiAuthResponse: IAuthResponse = await userServices.authenticate(login);
 

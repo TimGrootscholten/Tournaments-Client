@@ -33,7 +33,6 @@ const App = () => {
     if (localId === null) {
       let guid = uuidv4();
       setClientId(guid);
-      console.log(clientId);
       localStorage.setItem("clientId", guid);
     } else {
       setClientId(localId);

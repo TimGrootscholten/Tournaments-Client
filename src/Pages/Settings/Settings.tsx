@@ -32,18 +32,18 @@ const Settings: React.FunctionComponent<Props> = ({ userData }) => {
         <Button component={Link} to="/settings/account">
           Account
         </Button>
-        <Restricted
+        {/* <Restricted
           userRole={userData.scopes}
           ElementPermissions={[
             Permissions.TeamCreate,
             Permissions.TeamUpdate,
             Permissions.TeamDelete,
           ]}
-        >
-          <Button component={Link} to="/settings/toernooien">
-            Toernooien
-          </Button>
-        </Restricted>
+        > */}
+        <Button component={Link} to="/settings/toernooien">
+          Toernooien
+        </Button>
+        {/* </Restricted> */}
         <Button component={Link} to="/settings/permissie">
           Permissie
         </Button>
