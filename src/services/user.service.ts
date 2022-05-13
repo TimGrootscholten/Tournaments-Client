@@ -1,8 +1,10 @@
-import { UserDto, AuthenticateRequestDto, UserV1Client } from "../api/tournamentapiclient";
+import { UserDto, AuthenticateRequestDto, UserV1Client,  } from "../api/tournamentapiclient";
 
 export interface IUserService {
     createUser(user: UserDto): any;
     authenticate(login: AuthenticateRequestDto): any;
+    deleteClientGrant(clientId: string): any;
+    isUniqueUsername(username: string): any;
 }
 
 export class UserService implements IUserService {
@@ -19,6 +21,14 @@ export class UserService implements IUserService {
 
     authenticate(login: AuthenticateRequestDto) {
         return this.userV1Client.authenticate(login);
+    }
+
+    deleteClientGrant(clientId: string) {
+        return this.userV1Client.deleteClientGrant(clientId);
+    }
+
+    isUniqueUsername(username: string) {
+        return this.userV1Client.isUniqueUsername(username);
     }
 
 
