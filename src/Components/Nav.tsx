@@ -56,22 +56,12 @@ const Nav: React.FunctionComponent<Props> = ({ userData }) => {
             icon={<SportsSoccer />}
           />
           {userData.isLogin ? (
-            <></>
+            <BottomNavigationAction className="displaynone"></BottomNavigationAction>
           ) : (
             <BottomNavigationAction
               component={Link}
               to="/login"
               label="Account"
-              icon={<AccountCircle />}
-            />
-          )}
-          {userData.isLogin ? (
-            <></>
-          ) : (
-            <BottomNavigationAction
-              component={Link}
-              to="/registreren"
-              label="Registreren"
               icon={<AccountCircle />}
             />
           )}
@@ -83,7 +73,12 @@ const Nav: React.FunctionComponent<Props> = ({ userData }) => {
               icon={<Settings />}
             />
           ) : (
-            <></>
+            <BottomNavigationAction
+              component={Link}
+              to="/registreren"
+              label="Registreren"
+              icon={<AccountCircle />}
+            />
           )}
         </BottomNavigation>
       </Box>
