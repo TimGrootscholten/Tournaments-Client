@@ -575,15 +575,13 @@ export class UserV1Client {
     }
 
     /**
-     * @param userId (optional) 
-     * @param body (optional) 
      * @return Success
      */
-    addPermissionGroups(userId?: string | undefined, body?: string[] | undefined): Promise<void> {
+    addPermissionGroups(userId: string, body: string[]): Promise<void> {
         let url_ = this.baseUrl + "/api/v1/users/add-permission-groups?";
-        if (userId === null)
-            throw new Error("The parameter 'userId' cannot be null.");
-        else if (userId !== undefined)
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined and cannot be null.");
+        else
             url_ += "userId=" + encodeURIComponent("" + userId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -702,14 +700,13 @@ export class UserV1Client {
     }
 
     /**
-     * @param clientId (optional) 
      * @return Success
      */
-    deleteClientGrant(clientId?: string | undefined): Promise<boolean> {
+    deleteClientGrant(clientId: string): Promise<boolean> {
         let url_ = this.baseUrl + "/api/v1/users/client-grant?";
-        if (clientId === null)
-            throw new Error("The parameter 'clientId' cannot be null.");
-        else if (clientId !== undefined)
+        if (clientId === undefined || clientId === null)
+            throw new Error("The parameter 'clientId' must be defined and cannot be null.");
+        else
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -745,14 +742,13 @@ export class UserV1Client {
     }
 
     /**
-     * @param username (optional) 
      * @return Success
      */
-    isUniqueUsername(username?: string | undefined): Promise<boolean> {
+    isUniqueUsername(username: string): Promise<boolean> {
         let url_ = this.baseUrl + "/api/v1/users/is-unique-username?";
-        if (username === null)
-            throw new Error("The parameter 'username' cannot be null.");
-        else if (username !== undefined)
+        if (username === undefined || username === null)
+            throw new Error("The parameter 'username' must be defined and cannot be null.");
+        else
             url_ += "username=" + encodeURIComponent("" + username) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
