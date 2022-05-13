@@ -29,6 +29,9 @@ const Registreren = () => {
   const [errorLastNameText, setErrorLastNameText] = useState("");
   const [errorUserName, setErrorUserName] = useState(false);
   const [errorUserNameText, setErrorUserNameText] = useState("");
+
+  const userServices = new UserService();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let isWrongInput = false;
@@ -72,11 +75,22 @@ const Registreren = () => {
         lastName: lastName,
         password: password1,
       });
-      let userServices = new UserService();
       let apidata = await userServices.createUser(user);
       console.log(apidata);
     }
   };
+
+  const checkUniqueUserName = async () => {
+    let uniqueUserNameResponse = await userServices.isUniqueUsername(username);
+    if (!uniqueUserNameResponse) {
+      setErrorUserName(true);
+      setErrorUserNameText("Gebruikersnaam bestaat al.");
+    } else {
+      setErrorUserName(false);
+      setErrorUserNameText("");
+    }
+  };
+
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
@@ -105,6 +119,7 @@ const Registreren = () => {
                 name="username"
                 autoComplete="username"
                 onChange={(e) => setUsername(e.target.value)}
+                onBlur={checkUniqueUserName}
                 variant="standard"
                 value={username}
                 error={errorUserName}
