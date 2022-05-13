@@ -660,6 +660,91 @@ export class UserV1Client {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    authenticate2(body?: AuthenticateWithRefreshTokenDto | undefined): Promise<AuthResponse> {
+        let url_ = this.baseUrl + "/api/v1/users/authenticate-with-refresh-token";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAuthenticate2(_response);
+        });
+    }
+
+    protected processAuthenticate2(response: Response): Promise<AuthResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthResponse.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AuthResponse>(null as any);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    deleteClientGrant(clientId?: string | undefined): Promise<boolean> {
+        let url_ = this.baseUrl + "/api/v1/users/client-grant?";
+        if (clientId === null)
+            throw new Error("The parameter 'clientId' cannot be null.");
+        else if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteClientGrant(_response);
+        });
+    }
+
+    protected processDeleteClientGrant(response: Response): Promise<boolean> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<boolean>(null as any);
+    }
+
+    /**
      * @param username (optional) 
      * @return Success
      */
@@ -745,6 +830,46 @@ export interface IAuthenticateRequestDto {
     clientId: string;
     username: string;
     password: string;
+}
+
+export class AuthenticateWithRefreshTokenDto implements IAuthenticateWithRefreshTokenDto {
+    clientId: string;
+    refreshToken: string;
+
+    constructor(data?: IAuthenticateWithRefreshTokenDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.clientId = _data["clientId"];
+            this.refreshToken = _data["refreshToken"];
+        }
+    }
+
+    static fromJS(data: any): AuthenticateWithRefreshTokenDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthenticateWithRefreshTokenDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["refreshToken"] = this.refreshToken;
+        return data;
+    }
+}
+
+export interface IAuthenticateWithRefreshTokenDto {
+    clientId: string;
+    refreshToken: string;
 }
 
 export class AuthResponse implements IAuthResponse {
