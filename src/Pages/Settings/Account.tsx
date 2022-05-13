@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { UserService } from "../../services/user.service";
+
 import {
   Button,
   TextField,
@@ -16,13 +18,14 @@ import {
 } from "@mui/material";
 
 const Account = () => {
-  const [username, setUsername] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorPasswordText, setErrorPasswordText] = useState("");
-  const [errorUserName, setErrorUserName] = useState(false);
-  const [errorUserNameText, setErrorUserNameText] = useState("");
+
+  const userServices = new UserService();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password1.length <= 8) {
@@ -33,27 +36,23 @@ const Account = () => {
       setErrorPassword(true);
       setErrorPasswordText("Wachtwoord komt niet overeen");
       return;
-    } else if (username.length <= 2) {
-      setErrorUserName(true);
-      setErrorUserNameText("Er is een te kort gebruikersnaam ingevuld, minimaal 2 karakters.");
     } else {
-      setErrorUserName(false);
-      setErrorUserNameText("");
       setErrorPasswordText("");
       setErrorPassword(false);
     }
-    // let user = new UserDto({
-    //   username: username,
-    //   password: password,
-    // });
-    // let userServices = new UserService();
-    // userServices.getUser();
-    // userServices.createUser(user);
   };
   const createData = (waarde1: string, waarde2: number) => {
     return { waarde1, waarde2 };
   };
   const rows = [createData("role 2", 159), createData("role 1", 237)];
+
+  const Logout = async () => {
+    const clientId = localStorage.getItem("clientId");
+    await userServices.deleteClientGrant(clientId!);
+
+    window.location.replace("/login");
+  };
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -66,21 +65,6 @@ const Account = () => {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} className="mt-3">
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="username"
-                label="Gebruikersnaam"
-                name="username"
-                autoComplete="username"
-                onChange={(e) => setUsername(e.target.value)}
-                variant="standard"
-                value={username}
-                error={errorUserName}
-                helperText={errorUserNameText}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 required
@@ -152,7 +136,7 @@ const Account = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Button fullWidth variant="outlined" color="error" sx={{ mt: 3, mb: 2 }}>
+          <Button fullWidth variant="outlined" color="error" sx={{ mt: 3, mb: 2 }} onClick={Logout}>
             Uitloggen
           </Button>
         </Box>
