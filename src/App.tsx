@@ -1,27 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Assets/css/global.scss";
+
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Registreren from "./Pages/Registreren";
 import Nav from "./Components/Nav";
-import "./Assets/css/global.scss";
 import Settings from "./Pages/Settings/Settings";
 import Toernooien from "./Pages/Settings/Toernooien";
 import Account from "./Pages/Settings/Account";
 import Permissie from "./Pages/Settings/Permissie";
 import ToernooiAdd from "./Pages/Settings/ToernooiAdd";
 import ToernooiEdit from "./Pages/Settings/ToernooiEdit";
+import { IUserData } from "./Types";
+import { IAuthResponse } from "./api/tournamentapiclient";
 
 const App = () => {
-  const [userData, setUserData] = useState({});
+  const [userToken, setUserToken] = useState<IAuthResponse | undefined>(undefined);
+  const [clientId, setClientId] = useState("");
+  const [userData, setUserData] = useState<IUserData>({
+    firstName: "",
+    scopes: [],
+    username: "",
+    isLogin: false,
+  });
+
+  useEffect(() => {
+    const localId = localStorage.getItem("clientId");
+    if (localId === null) {
+      let guid = uuidv4();
+      setClientId(guid);
+      console.log(clientId);
+      localStorage.setItem("clientId", guid);
+    } else {
+      setClientId(localId);
+    }
+  }, [clientId]);
+
   return (
     <BrowserRouter>
       <div className="content">
         <Routes>
           <Route path="/">
-            <Route index element={<Home />} />
-            <Route path="login" element={<Login />} />
+            <Route index element={<Home userData={userData} />} />
+            <Route
+              path="login"
+              element={
+                <Login
+                  clientId={clientId}
+                  setUserToken={setUserToken}
+                  userToken={userToken}
+                  setUserData={setUserData}
+                />
+              }
+            />
             <Route path="registreren" element={<Registreren />} />
 
             <Route path="settings">
@@ -29,23 +64,25 @@ const App = () => {
                 index
                 element={
                   <>
-                    <Settings /> <Account />
+                    <Settings userData={userData} /> <Account />
                   </>
                 }
               />
+              {/* <Restricted userRole={userData.scopes} ElementPermission={Permissions.TeamCreate}> */}
               <Route
                 path="account"
                 element={
                   <>
-                    <Settings /> <Account />
+                    <Settings userData={userData} /> <Account />
                   </>
                 }
               />
+              {/* </Restricted> */}
               <Route
                 path="permissie"
                 element={
                   <>
-                    <Settings /> <Permissie />
+                    <Settings userData={userData} /> <Permissie />
                   </>
                 }
               />
@@ -54,7 +91,7 @@ const App = () => {
                   index
                   element={
                     <>
-                      <Settings /> <Toernooien />
+                      <Settings userData={userData} /> <Toernooien />
                     </>
                   }
                 />
@@ -62,7 +99,7 @@ const App = () => {
                   path="add"
                   element={
                     <>
-                      <Settings /> <ToernooiAdd />
+                      <Settings userData={userData} /> <ToernooiAdd />
                     </>
                   }
                 />
@@ -70,7 +107,7 @@ const App = () => {
                   path="edit/:id"
                   element={
                     <>
-                      <Settings /> <ToernooiEdit />
+                      <Settings userData={userData} /> <ToernooiEdit />
                     </>
                   }
                 />
@@ -79,7 +116,7 @@ const App = () => {
           </Route>
         </Routes>
       </div>
-      <Nav />
+      <Nav userData={userData} />
     </BrowserRouter>
   );
 };

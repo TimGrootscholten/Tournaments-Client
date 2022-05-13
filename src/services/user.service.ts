@@ -1,7 +1,8 @@
-import { UserDto, UserV1Client } from "../api/tournamentapiclient";
+import { UserDto, AuthenticateRequestDto, UserV1Client } from "../api/tournamentapiclient";
 
 export interface IUserService {
     createUser(user: UserDto): any;
+    authenticate(login: AuthenticateRequestDto): any;
 }
 
 export class UserService implements IUserService {
@@ -12,11 +13,13 @@ export class UserService implements IUserService {
     }
 
     createUser(user: UserDto) {
-        this.userV1Client.createUser(user);
+        return this.userV1Client.createUser(user);
     }
 
-    getUser() {
-        this.userV1Client.getUser();
+
+    authenticate(login: AuthenticateRequestDto) {
+        return this.userV1Client.authenticate(login);
     }
+
 
 }

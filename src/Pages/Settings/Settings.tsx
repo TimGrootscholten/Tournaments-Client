@@ -3,8 +3,15 @@ import { Button, ButtonGroup, Container } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../../Assets/css/settings.scss";
+import Restricted from "../../Permission/Restricted";
+import { Permissions } from "../../Permission/TournamentPermissions";
+import { IUserData } from "../../Types";
 
-const Settings = () => {
+type Props = {
+  userData: IUserData;
+};
+
+const Settings: React.FunctionComponent<Props> = ({ userData }) => {
   type paramsType = {
     settingpage: string;
   };
@@ -25,9 +32,18 @@ const Settings = () => {
         <Button component={Link} to="/settings/account">
           Account
         </Button>
-        <Button component={Link} to="/settings/toernooien">
-          Toernooien
-        </Button>
+        <Restricted
+          userRole={userData.scopes}
+          ElementPermissions={[
+            Permissions.TeamCreate,
+            Permissions.TeamUpdate,
+            Permissions.TeamDelete,
+          ]}
+        >
+          <Button component={Link} to="/settings/toernooien">
+            Toernooien
+          </Button>
+        </Restricted>
         <Button component={Link} to="/settings/permissie">
           Permissie
         </Button>

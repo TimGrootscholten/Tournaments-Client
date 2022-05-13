@@ -17,38 +17,65 @@ import { UserService } from "../services/user.service";
 
 const Registreren = () => {
   const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorPasswordText, setErrorPasswordText] = useState("");
+  const [errorFirstName, setErrorFirstName] = useState(false);
+  const [errorLastName, setErrorLastName] = useState(false);
+  const [errorFirstNameText, setErrorFirstNameText] = useState("");
+  const [errorLastNameText, setErrorLastNameText] = useState("");
   const [errorUserName, setErrorUserName] = useState(false);
   const [errorUserNameText, setErrorUserNameText] = useState("");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (password1.length <= 8) {
+    let isWrongInput = false;
+    setErrorFirstName(false);
+    setErrorFirstNameText("");
+    setErrorLastName(false);
+    setErrorLastNameText("");
+    setErrorPasswordText("");
+    setErrorPassword(false);
+    setErrorUserName(false);
+    setErrorUserNameText("");
+    if (password1.length < 8) {
       setErrorPassword(true);
       setErrorPasswordText("Er is een te kort wachtwoord ingevuld, minimaal 8 karakters.");
-      return;
-    } else if (password1 !== password2) {
+      isWrongInput = true;
+    }
+    if (password1 !== password2) {
       setErrorPassword(true);
       setErrorPasswordText("Wachtwoord komt niet overeen");
-      return;
-    } else if (username.length <= 2) {
+      isWrongInput = true;
+    }
+    if (firstName.length < 2) {
+      setErrorFirstName(true);
+      setErrorFirstNameText("Er is een te kort gebruikersnaam ingevuld, minimaal 2 karakters.");
+      isWrongInput = true;
+    }
+    if (lastName.length < 2) {
+      setErrorLastName(true);
+      setErrorLastNameText("Er is een te kort gebruikersnaam ingevuld, minimaal 2 karakters.");
+      isWrongInput = true;
+    }
+    if (username.length < 2) {
       setErrorUserName(true);
       setErrorUserNameText("Er is een te kort gebruikersnaam ingevuld, minimaal 2 karakters.");
-    } else {
-      setErrorUserName(false);
-      setErrorUserNameText("");
-      setErrorPasswordText("");
-      setErrorPassword(false);
+      isWrongInput = true;
     }
-    // let user = new UserDto({
-    //   username: username,
-    //   password: password,
-    // });
-    // let userServices = new UserService();
-    // userServices.getUser();
-    // userServices.createUser(user);
+    if (!isWrongInput) {
+      let user = new UserDto({
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        password: password1,
+      });
+      let userServices = new UserService();
+      let apidata = await userServices.createUser(user);
+      console.log(apidata);
+    }
   };
   return (
     <Container component="main" maxWidth="sm">
@@ -82,6 +109,36 @@ const Registreren = () => {
                 value={username}
                 error={errorUserName}
                 helperText={errorUserNameText}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="voornaam"
+                label="Voornaam"
+                name="voornaam"
+                autoComplete="firstname"
+                onChange={(e) => setFirstName(e.target.value)}
+                variant="standard"
+                value={firstName}
+                error={errorFirstName}
+                helperText={errorFirstNameText}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="achternaam"
+                label="Achternaam"
+                name="achternaam"
+                autoComplete="lastName"
+                onChange={(e) => setLastName(e.target.value)}
+                variant="standard"
+                value={lastName}
+                error={errorLastName}
+                helperText={errorLastNameText}
               />
             </Grid>
             <Grid item xs={12}>

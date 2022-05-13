@@ -2,10 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { AccountCircle, SportsSoccer, Home, Settings } from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
+import Restricted from "../Permission/Restricted";
+import { Permissions } from "../Permission/TournamentPermissions";
+import { IUserData } from "../Types";
 
 import { Link } from "react-router-dom";
 
-const Nav = () => {
+type Props = {
+  userData: IUserData;
+};
+
+const Nav: React.FunctionComponent<Props> = ({ userData }) => {
   const [value, setValue] = useState(0);
 
   let { pathname } = useLocation();
@@ -23,7 +30,7 @@ const Nav = () => {
         setValue(2);
         break;
       case "registreren":
-        setValue(2);
+        setValue(3);
         break;
       case "settings":
         setValue(3);
@@ -48,18 +55,36 @@ const Nav = () => {
             label="Toernooien"
             icon={<SportsSoccer />}
           />
-          <BottomNavigationAction
-            component={Link}
-            to="/login"
-            label="Account"
-            icon={<AccountCircle />}
-          />
-          <BottomNavigationAction
-            component={Link}
-            to="/settings"
-            label="Instellingen"
-            icon={<Settings />}
-          />
+          {userData.isLogin ? (
+            <></>
+          ) : (
+            <BottomNavigationAction
+              component={Link}
+              to="/login"
+              label="Account"
+              icon={<AccountCircle />}
+            />
+          )}
+          {userData.isLogin ? (
+            <></>
+          ) : (
+            <BottomNavigationAction
+              component={Link}
+              to="/registreren"
+              label="Registreren"
+              icon={<AccountCircle />}
+            />
+          )}
+          {userData.isLogin ? (
+            <BottomNavigationAction
+              component={Link}
+              to="/settings"
+              label="Instellingen"
+              icon={<Settings />}
+            />
+          ) : (
+            <></>
+          )}
         </BottomNavigation>
       </Box>
     </nav>

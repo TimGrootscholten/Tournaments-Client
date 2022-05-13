@@ -8,6 +8,226 @@
 // ReSharper disable InconsistentNaming
 // @ts-nocheck
 
+export class PermissionGroupV1Client {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getPermissionGroupById(id: string): Promise<PermissionGroupDto> {
+        let url_ = this.baseUrl + "/api/v1/permissiongroup/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetPermissionGroupById(_response);
+        });
+    }
+
+    protected processGetPermissionGroupById(response: Response): Promise<PermissionGroupDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PermissionGroupDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<PermissionGroupDto>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    deletePermissionGroup(id: string): Promise<boolean> {
+        let url_ = this.baseUrl + "/api/v1/permissiongroup/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeletePermissionGroup(_response);
+        });
+    }
+
+    protected processDeletePermissionGroup(response: Response): Promise<boolean> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<boolean>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getPermissionGroups(): Promise<PermissionGroupDto[]> {
+        let url_ = this.baseUrl + "/api/v1/permissiongroup";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetPermissionGroups(_response);
+        });
+    }
+
+    protected processGetPermissionGroups(response: Response): Promise<PermissionGroupDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(PermissionGroupDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<PermissionGroupDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createPermissionGroup(body?: PermissionGroupDto | undefined): Promise<PermissionGroupDto> {
+        let url_ = this.baseUrl + "/api/v1/permissiongroup";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreatePermissionGroup(_response);
+        });
+    }
+
+    protected processCreatePermissionGroup(response: Response): Promise<PermissionGroupDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PermissionGroupDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<PermissionGroupDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updatePermissionGroup(body?: PermissionGroupDto | undefined): Promise<PermissionGroupDto> {
+        let url_ = this.baseUrl + "/api/v1/permissiongroup";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdatePermissionGroup(_response);
+        });
+    }
+
+    protected processUpdatePermissionGroup(response: Response): Promise<PermissionGroupDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PermissionGroupDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<PermissionGroupDto>(null as any);
+    }
+}
+
 export class TeamV1Client {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -21,34 +241,210 @@ export class TeamV1Client {
     /**
      * @return Success
      */
-    getTeam(): Promise<void> {
-        let url_ = this.baseUrl + "/api/v1/teams";
+    getTeamById(id: string): Promise<TeamDto> {
+        let url_ = this.baseUrl + "/api/v1/teams/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
             method: "GET",
             headers: {
+                "Accept": "application/json"
             }
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetTeam(_response);
+            return this.processGetTeamById(_response);
         });
     }
 
-    protected processGetTeam(response: Response): Promise<void> {
+    protected processGetTeamById(response: Response): Promise<TeamDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = TeamDto.fromJS(resultData200);
+            return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<TeamDto>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    deleteTeam(id: string): Promise<boolean> {
+        let url_ = this.baseUrl + "/api/v1/teams/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteTeam(_response);
+        });
+    }
+
+    protected processDeleteTeam(response: Response): Promise<boolean> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<boolean>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getTeams(): Promise<TeamDto[]> {
+        let url_ = this.baseUrl + "/api/v1/teams";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetTeams(_response);
+        });
+    }
+
+    protected processGetTeams(response: Response): Promise<TeamDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(TeamDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TeamDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createTeam(body?: TeamDto | undefined): Promise<TeamDto> {
+        let url_ = this.baseUrl + "/api/v1/teams";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreateTeam(_response);
+        });
+    }
+
+    protected processCreateTeam(response: Response): Promise<TeamDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = TeamDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TeamDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateTeam(body?: TeamDto | undefined): Promise<TeamDto> {
+        let url_ = this.baseUrl + "/api/v1/teams";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateTeam(_response);
+        });
+    }
+
+    protected processUpdateTeam(response: Response): Promise<TeamDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = TeamDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TeamDto>(null as any);
     }
 }
 
@@ -65,34 +461,41 @@ export class UserV1Client {
     /**
      * @return Success
      */
-    getUser(): Promise<void> {
-        let url_ = this.baseUrl + "/api/v1/users";
+    getUserById(id: string): Promise<UserInfoDto> {
+        let url_ = this.baseUrl + "/api/v1/users/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
             method: "GET",
             headers: {
+                "Accept": "application/json"
             }
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetUser(_response);
+            return this.processGetUserById(_response);
         });
     }
 
-    protected processGetUser(response: Response): Promise<void> {
+    protected processGetUserById(response: Response): Promise<UserInfoDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserInfoDto.fromJS(resultData200);
+            return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<UserInfoDto>(null as any);
     }
 
     /**
@@ -132,14 +535,359 @@ export class UserV1Client {
         }
         return Promise.resolve<void>(null as any);
     }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateUser(body?: UserEditDto | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/v1/users";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateUser(_response);
+        });
+    }
+
+    protected processUpdateUser(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param userId (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    addPermissionGroups(userId?: string | undefined, body?: string[] | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/v1/users/add-permission-groups?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAddPermissionGroups(_response);
+        });
+    }
+
+    protected processAddPermissionGroups(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    authenticate(body?: AuthenticateRequestDto | undefined): Promise<AuthResponse> {
+        let url_ = this.baseUrl + "/api/v1/users/token";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAuthenticate(_response);
+        });
+    }
+
+    protected processAuthenticate(response: Response): Promise<AuthResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthResponse.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AuthResponse>(null as any);
+    }
+
+    /**
+     * @param username (optional) 
+     * @return Success
+     */
+    isUniqueUsername(username?: string | undefined): Promise<boolean> {
+        let url_ = this.baseUrl + "/api/v1/users/is-unique-username?";
+        if (username === null)
+            throw new Error("The parameter 'username' cannot be null.");
+        else if (username !== undefined)
+            url_ += "username=" + encodeURIComponent("" + username) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processIsUniqueUsername(_response);
+        });
+    }
+
+    protected processIsUniqueUsername(response: Response): Promise<boolean> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<boolean>(null as any);
+    }
+}
+
+export class AuthenticateRequestDto implements IAuthenticateRequestDto {
+    clientId: string;
+    username: string;
+    password: string;
+
+    constructor(data?: IAuthenticateRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.clientId = _data["clientId"];
+            this.username = _data["username"];
+            this.password = _data["password"];
+        }
+    }
+
+    static fromJS(data: any): AuthenticateRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthenticateRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["username"] = this.username;
+        data["password"] = this.password;
+        return data;
+    }
+}
+
+export interface IAuthenticateRequestDto {
+    clientId: string;
+    username: string;
+    password: string;
+}
+
+export class AuthResponse implements IAuthResponse {
+    accesToken: string;
+    refreshToken: string;
+
+    constructor(data?: IAuthResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.accesToken = _data["accesToken"];
+            this.refreshToken = _data["refreshToken"];
+        }
+    }
+
+    static fromJS(data: any): AuthResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["accesToken"] = this.accesToken;
+        data["refreshToken"] = this.refreshToken;
+        return data;
+    }
+}
+
+export interface IAuthResponse {
+    accesToken: string;
+    refreshToken: string;
+}
+
+export class PermissionGroupDto implements IPermissionGroupDto {
+    id?: string;
+    name: string;
+    permissions: number[];
+
+    constructor(data?: IPermissionGroupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.permissions = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            if (Array.isArray(_data["permissions"])) {
+                this.permissions = [] as any;
+                for (let item of _data["permissions"])
+                    this.permissions.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): PermissionGroupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionGroupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        if (Array.isArray(this.permissions)) {
+            data["permissions"] = [];
+            for (let item of this.permissions)
+                data["permissions"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IPermissionGroupDto {
+    id?: string;
+    name: string;
+    permissions: number[];
+}
+
+export class TeamDto implements ITeamDto {
+    id?: string;
+    name: string;
+
+    constructor(data?: ITeamDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): TeamDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TeamDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data;
+    }
+}
+
+export interface ITeamDto {
+    id?: string;
+    name: string;
 }
 
 export class UserDto implements IUserDto {
     id?: string;
-    email?: string | undefined;
-    password?: string | undefined;
-    firstName?: string | undefined;
-    lastName?: string | undefined;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
 
     constructor(data?: IUserDto) {
         if (data) {
@@ -153,7 +901,7 @@ export class UserDto implements IUserDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.email = _data["email"];
+            this.username = _data["username"];
             this.password = _data["password"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
@@ -170,7 +918,7 @@ export class UserDto implements IUserDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["email"] = this.email;
+        data["username"] = this.username;
         data["password"] = this.password;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
@@ -180,10 +928,118 @@ export class UserDto implements IUserDto {
 
 export interface IUserDto {
     id?: string;
-    email?: string | undefined;
-    password?: string | undefined;
-    firstName?: string | undefined;
-    lastName?: string | undefined;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}
+
+export class UserEditDto implements IUserEditDto {
+    id?: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+
+    constructor(data?: IUserEditDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.username = _data["username"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+        }
+    }
+
+    static fromJS(data: any): UserEditDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserEditDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        return data;
+    }
+}
+
+export interface IUserEditDto {
+    id?: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+}
+
+export class UserInfoDto implements IUserInfoDto {
+    id?: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    permissionGroups?: PermissionGroupDto[] | undefined;
+
+    constructor(data?: IUserInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.username = _data["username"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            if (Array.isArray(_data["permissionGroups"])) {
+                this.permissionGroups = [] as any;
+                for (let item of _data["permissionGroups"])
+                    this.permissionGroups.push(PermissionGroupDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): UserInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        if (Array.isArray(this.permissionGroups)) {
+            data["permissionGroups"] = [];
+            for (let item of this.permissionGroups)
+                data["permissionGroups"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IUserInfoDto {
+    id?: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    permissionGroups?: PermissionGroupDto[] | undefined;
 }
 
 export class SwaggerException extends Error {

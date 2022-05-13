@@ -1,12 +1,78 @@
 import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Grid, Box, Typography, Container } from "@mui/material";
+import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
+import { AuthenticateRequestDto, IAuthResponse } from "../api/tournamentapiclient";
+import { UserService } from "../services/user.service";
+import { IUserData } from "../Types";
+import { openDB, DBSchema } from "idb";
 
-const Login = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+type Props = {
+  clientId: string;
+  setUserToken: React.Dispatch<React.SetStateAction<IAuthResponse | undefined>>;
+  userToken: IAuthResponse | undefined;
+  setUserData: React.Dispatch<React.SetStateAction<IUserData>>;
+};
+
+interface MyDB extends DBSchema {
+  Tournaments: {
+    key: string;
+    value: number;
+  };
+}
+
+const Login: React.FunctionComponent<Props> = ({
+  clientId,
+  setUserToken,
+  userToken,
+  setUserData,
+}) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    // try {
+    let login = new AuthenticateRequestDto({
+      clientId: clientId,
+      username: username,
+      password: password,
+    });
+    let userServices = new UserService();
+
+    let apiAuthResponse: IAuthResponse = await userServices.authenticate(login);
+
+    setUserToken({
+      ...userToken,
+      accesToken: apiAuthResponse.accesToken,
+      refreshToken: apiAuthResponse.refreshToken!,
+    });
+    let UserDataDecode: IUserData = jwt_decode(apiAuthResponse.accesToken);
+    setUserData({
+      isLogin: true,
+      username: UserDataDecode.username,
+      scopes: UserDataDecode.scopes,
+      firstName: UserDataDecode.firstName,
+    });
+
+    // const db = await openDB<MyDB>("Tournaments", 1, {
+    //   upgrade(db) {
+    //     db.createObjectStore("Tournaments");
+    //   },
+    // });
+
+    // await db.put("Tournaments", 7, "Jen");
+
+    // // await db.get("Tournaments", 3);
+
+    navigate("/");
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   return (
@@ -33,6 +99,8 @@ const Login = () => {
             name="username"
             autoComplete="username"
             variant="standard"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
           />
           <TextField
             margin="normal"
@@ -44,6 +112,8 @@ const Login = () => {
             id="password"
             autoComplete="current-password"
             variant="standard"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Inloggen
