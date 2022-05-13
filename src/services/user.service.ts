@@ -1,10 +1,10 @@
-import { UserDto, AuthenticateRequestDto, UserV1Client,  } from "../api/tournamentapiclient";
+import { UserDto, AuthenticateRequestDto, UserV1Client, AuthResponse,  } from "../api/tournamentapiclient";
 
 export interface IUserService {
-    createUser(user: UserDto): any;
-    authenticate(login: AuthenticateRequestDto): any;
-    deleteClientGrant(clientId: string): any;
-    isUniqueUsername(username: string): any;
+    createUser(user: UserDto): Promise<void>;
+    authenticate(login: AuthenticateRequestDto): Promise<AuthResponse> ;
+    deleteClientGrant(clientId: string): Promise<boolean>;
+    isUniqueUsername(username: string): Promise<boolean>;
 }
 
 export class UserService implements IUserService {
