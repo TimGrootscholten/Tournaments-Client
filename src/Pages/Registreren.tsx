@@ -10,12 +10,28 @@ import {
   Container,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { UserDto } from "../api/tournamentapiclient";
 import { UserService } from "../services/user.service";
+import { IAuthResponse } from "../api/tournamentapiclient";
+import { IUserData } from "../Types";
 
-const Registreren = () => {
+type Props = {
+  clientId: string;
+  setUserToken: React.Dispatch<React.SetStateAction<IAuthResponse | undefined>>;
+  userToken: IAuthResponse | undefined;
+  setUserData: React.Dispatch<React.SetStateAction<IUserData>>;
+};
+
+const Registreren: React.FunctionComponent<Props> = ({
+  clientId,
+  setUserToken,
+  userToken,
+  setUserData,
+}) => {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -30,6 +46,7 @@ const Registreren = () => {
   const [errorUserName, setErrorUserName] = useState(false);
   const [errorUserNameText, setErrorUserNameText] = useState("");
 
+  const navigate = useNavigate();
   const userServices = new UserService();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,13 +87,27 @@ const Registreren = () => {
     }
     if (!isWrongInput) {
       let user = new UserDto({
+        clientId: clientId,
         username: username,
         firstName: firstName,
         lastName: lastName,
         password: password1,
       });
-      let apidata = await userServices.createUser(user);
-      console.log(apidata);
+      let apiAuthResponse: IAuthResponse = await userServices.createUser(user);
+
+      setUserToken({
+        ...userToken,
+        accesToken: apiAuthResponse.accesToken,
+        refreshToken: apiAuthResponse.refreshToken!,
+      });
+      let UserDataDecode: IUserData = jwt_decode(apiAuthResponse.accesToken);
+      setUserData({
+        isLogin: true,
+        username: UserDataDecode.username,
+        scopes: UserDataDecode.scopes,
+        firstName: UserDataDecode.firstName,
+      });
+      navigate("/");
     }
   };
 

@@ -15,7 +15,6 @@ type Props = {
   userToken: IAuthResponse | undefined;
   setUserData: React.Dispatch<React.SetStateAction<IUserData>>;
 };
-
 interface MyDB extends DBSchema {
   Tournaments: {
     key: string;
@@ -59,16 +58,15 @@ const Login: React.FunctionComponent<Props> = ({
       firstName: UserDataDecode.firstName,
     });
 
-    // const db = await openDB<MyDB>("Tournaments", 1, {
-    //   upgrade(db) {
-    //     db.createObjectStore("Tournaments");
-    //   },
-    // });
+    const db = await openDB<MyDB>("Tournaments", 1, {
+      upgrade(db) {
+        db.createObjectStore("Tournaments");
+      },
+    });
 
-    // await db.put("Tournaments", 7, "Jen");
+    await db.put("Tournaments", 7, "Jen");
 
-    // // await db.get("Tournaments", 3);
-
+    console.log(await db.get("Tournaments", "0"));
     navigate("/");
     // } catch (error) {
     //   console.error(error);

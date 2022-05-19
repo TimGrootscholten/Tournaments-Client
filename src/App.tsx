@@ -56,7 +56,17 @@ const App = () => {
                 />
               }
             />
-            <Route path="registreren" element={<Registreren />} />
+            <Route
+              path="registreren"
+              element={
+                <Registreren
+                  clientId={clientId}
+                  setUserToken={setUserToken}
+                  userToken={userToken}
+                  setUserData={setUserData}
+                />
+              }
+            />
 
             <Route path="settings">
               <Route
