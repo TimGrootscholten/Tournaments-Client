@@ -499,10 +499,54 @@ export class UserV1Client {
     }
 
     /**
+     * @return Success
+     */
+    getUsers(): Promise<UserInfoDto[]> {
+        let url_ = this.baseUrl + "/api/v1/users";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetUsers(_response);
+        });
+    }
+
+    protected processGetUsers(response: Response): Promise<UserInfoDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(UserInfoDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<UserInfoDto[]>(null as any);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
-    createUser(body?: UserDto | undefined): Promise<void> {
+    createUser(body?: UserDto | undefined): Promise<AuthResponse> {
         let url_ = this.baseUrl + "/api/v1/users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -513,6 +557,7 @@ export class UserV1Client {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             }
         };
 
@@ -521,19 +566,22 @@ export class UserV1Client {
         });
     }
 
-    protected processCreateUser(response: Response): Promise<void> {
+    protected processCreateUser(response: Response): Promise<AuthResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<AuthResponse>(null as any);
     }
 
     /**
@@ -577,7 +625,7 @@ export class UserV1Client {
     /**
      * @return Success
      */
-    addPermissionGroups(userId: string, body: string[]): Promise<void> {
+    addPermissionGroups(userId: string, body: string[]): Promise<boolean> {
         let url_ = this.baseUrl + "/api/v1/users/add-permission-groups?";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined and cannot be null.");
@@ -592,6 +640,7 @@ export class UserV1Client {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             }
         };
 
@@ -600,19 +649,23 @@ export class UserV1Client {
         });
     }
 
-    protected processAddPermissionGroups(response: Response): Promise<void> {
+    protected processAddPermissionGroups(response: Response): Promise<boolean> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<boolean>(null as any);
     }
 
     /**
@@ -661,7 +714,7 @@ export class UserV1Client {
      * @param body (optional) 
      * @return Success
      */
-    authenticate2(body?: AuthenticateWithRefreshTokenDto | undefined): Promise<AuthResponse> {
+    authenticateWithRefreshToken(body?: AuthenticateWithRefreshTokenDto | undefined): Promise<AuthResponse> {
         let url_ = this.baseUrl + "/api/v1/users/authenticate-with-refresh-token";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -677,11 +730,11 @@ export class UserV1Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processAuthenticate2(_response);
+            return this.processAuthenticateWithRefreshToken(_response);
         });
     }
 
-    protected processAuthenticate2(response: Response): Promise<AuthResponse> {
+    protected processAuthenticateWithRefreshToken(response: Response): Promise<AuthResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -1005,6 +1058,7 @@ export interface ITeamDto {
 
 export class UserDto implements IUserDto {
     id?: string;
+    clientId: string;
     username: string;
     password: string;
     firstName: string;
@@ -1022,6 +1076,7 @@ export class UserDto implements IUserDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.clientId = _data["clientId"];
             this.username = _data["username"];
             this.password = _data["password"];
             this.firstName = _data["firstName"];
@@ -1039,6 +1094,7 @@ export class UserDto implements IUserDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["clientId"] = this.clientId;
         data["username"] = this.username;
         data["password"] = this.password;
         data["firstName"] = this.firstName;
@@ -1049,6 +1105,7 @@ export class UserDto implements IUserDto {
 
 export interface IUserDto {
     id?: string;
+    clientId: string;
     username: string;
     password: string;
     firstName: string;
@@ -1057,7 +1114,6 @@ export interface IUserDto {
 
 export class UserEditDto implements IUserEditDto {
     id?: string;
-    username: string;
     firstName: string;
     lastName: string;
 
@@ -1073,7 +1129,6 @@ export class UserEditDto implements IUserEditDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.username = _data["username"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
         }
@@ -1089,7 +1144,6 @@ export class UserEditDto implements IUserEditDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["username"] = this.username;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         return data;
@@ -1098,7 +1152,6 @@ export class UserEditDto implements IUserEditDto {
 
 export interface IUserEditDto {
     id?: string;
-    username: string;
     firstName: string;
     lastName: string;
 }

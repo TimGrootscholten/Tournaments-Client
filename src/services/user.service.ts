@@ -1,7 +1,7 @@
 import { UserDto, AuthenticateRequestDto, UserV1Client, AuthResponse,  } from "../api/tournamentapiclient";
 
 export interface IUserService {
-    createUser(user: UserDto): Promise<void>;
+    createUser(user: UserDto): Promise<AuthResponse>;
     authenticate(login: AuthenticateRequestDto): Promise<AuthResponse> ;
     deleteClientGrant(clientId: string): Promise<boolean>;
     isUniqueUsername(username: string): Promise<boolean>;
