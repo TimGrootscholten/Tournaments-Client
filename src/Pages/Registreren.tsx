@@ -97,10 +97,10 @@ const Registreren: React.FunctionComponent<Props> = ({
 
       setUserToken({
         ...userToken,
-        accesToken: apiAuthResponse.accesToken,
+        accessToken: apiAuthResponse.accessToken,
         refreshToken: apiAuthResponse.refreshToken!,
       });
-      let UserDataDecode: IUserData = jwt_decode(apiAuthResponse.accesToken);
+      let UserDataDecode: IUserData = jwt_decode(apiAuthResponse.accessToken);
       setUserData({
         isLogin: true,
         username: UserDataDecode.username,

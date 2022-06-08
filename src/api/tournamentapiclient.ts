@@ -922,7 +922,7 @@ export interface IAuthenticateWithRefreshTokenDto {
 }
 
 export class AuthResponse implements IAuthResponse {
-    accesToken: string;
+    accessToken: string;
     refreshToken: string;
 
     constructor(data?: IAuthResponse) {
@@ -936,7 +936,7 @@ export class AuthResponse implements IAuthResponse {
 
     init(_data?: any) {
         if (_data) {
-            this.accesToken = _data["accesToken"];
+            this.accessToken = _data["accessToken"];
             this.refreshToken = _data["refreshToken"];
         }
     }
@@ -950,14 +950,14 @@ export class AuthResponse implements IAuthResponse {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accesToken"] = this.accesToken;
+        data["accessToken"] = this.accessToken;
         data["refreshToken"] = this.refreshToken;
         return data;
     }
 }
 
 export interface IAuthResponse {
-    accesToken: string;
+    accessToken: string;
     refreshToken: string;
 }
 
