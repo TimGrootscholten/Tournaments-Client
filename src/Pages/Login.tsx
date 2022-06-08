@@ -18,7 +18,7 @@ type Props = {
 interface MyDB extends DBSchema {
   Tournaments: {
     key: string;
-    value: number;
+    value: string;
   };
 }
 
@@ -64,9 +64,11 @@ const Login: React.FunctionComponent<Props> = ({
       },
     });
 
-    await db.put("Tournaments", 7, "Jen");
+    await db.put("Tournaments", apiAuthResponse.accessToken, "accessToken");
+    await db.put("Tournaments", apiAuthResponse.refreshToken, "refreshToken");
 
-    console.log(await db.get("Tournaments", "0"));
+    console.log(await db.get("Tournaments", "refreshToken"));
+    console.log(await db.get("Tournaments", "accessToken"));
     navigate("/");
     // } catch (error) {
     //   console.error(error);

@@ -14,9 +14,15 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Search } from "@mui/icons-material";
 
+import { UserService } from "../../services/user.service";
+import { IUserInfoDto } from "../../api/tournamentapiclient";
+
 const Permissie = () => {
   const [canSave, setCanSave] = useState(false);
   const [wachtwoordAlert, setWachtwoordAlert] = useState(false);
+
+  const userServices = new UserService();
+
   const columns: GridColDef[] = [{ field: "RoleName", headerName: "Permissiegroep", width: 300 }];
   const rows = [
     { id: 1, RoleName: "role speler" },
@@ -30,8 +36,10 @@ const Permissie = () => {
     { id: 9, RoleName: "role admin" },
   ];
 
-  const handleSubmitGebruikerZoeken = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitGebruikerZoeken = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let apiGetUsersResoibse: IUserInfoDto[] = await userServices.getUsers();
+    console.log(apiGetUsersResoibse);
     setCanSave(true);
   };
 
