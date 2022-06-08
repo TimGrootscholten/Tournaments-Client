@@ -8,12 +8,27 @@
 // ReSharper disable InconsistentNaming
 // @ts-nocheck
 
-export class PermissionGroupV1Client {
+import { openDB, DBSchema } from "idb";
+export class BaseClass {
+
+    protected transformOptions = async (options: RequestInit): Promise<RequestInit> => {
+        let token = await getToken();
+        options.headers = {
+            ...options.headers,
+            Authorization: 'Bearer ' + token,
+        };
+        return Promise.resolve(options);
+    }
+
+}
+
+export class PermissionGroupV1Client extends BaseClass {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : window as any;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
@@ -35,7 +50,9 @@ export class PermissionGroupV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetPermissionGroupById(_response);
         });
     }
@@ -75,7 +92,9 @@ export class PermissionGroupV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processDeletePermissionGroup(_response);
         });
     }
@@ -113,7 +132,9 @@ export class PermissionGroupV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetPermissionGroups(_response);
         });
     }
@@ -162,7 +183,9 @@ export class PermissionGroupV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCreatePermissionGroup(_response);
         });
     }
@@ -204,7 +227,9 @@ export class PermissionGroupV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processUpdatePermissionGroup(_response);
         });
     }
@@ -228,12 +253,13 @@ export class PermissionGroupV1Client {
     }
 }
 
-export class TeamV1Client {
+export class TeamV1Client extends BaseClass {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : window as any;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
@@ -255,7 +281,9 @@ export class TeamV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetTeamById(_response);
         });
     }
@@ -295,7 +323,9 @@ export class TeamV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processDeleteTeam(_response);
         });
     }
@@ -333,7 +363,9 @@ export class TeamV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetTeams(_response);
         });
     }
@@ -382,7 +414,9 @@ export class TeamV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCreateTeam(_response);
         });
     }
@@ -424,7 +458,9 @@ export class TeamV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processUpdateTeam(_response);
         });
     }
@@ -448,12 +484,13 @@ export class TeamV1Client {
     }
 }
 
-export class UserV1Client {
+export class UserV1Client extends BaseClass {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : window as any;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
@@ -475,7 +512,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetUserById(_response);
         });
     }
@@ -512,7 +551,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetUsers(_response);
         });
     }
@@ -561,7 +602,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCreateUser(_response);
         });
     }
@@ -602,7 +645,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processUpdateUser(_response);
         });
     }
@@ -644,7 +689,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAddPermissionGroups(_response);
         });
     }
@@ -687,7 +734,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate(_response);
         });
     }
@@ -729,7 +778,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticateWithRefreshToken(_response);
         });
     }
@@ -770,7 +821,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processDeleteClientGrant(_response);
         });
     }
@@ -812,7 +865,9 @@ export class UserV1Client {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processIsUniqueUsername(_response);
         });
     }
@@ -1242,4 +1297,23 @@ export class SwaggerException extends Error {
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
     throw new SwaggerException(message, status, response, headers, result);
+}
+
+interface MyDB extends DBSchema {
+    Tournaments: {
+      key: string;
+      value: string;
+    };
+  }
+
+const getToken = async () => {
+
+    const db = await openDB<MyDB>("Tournaments", 1, {
+        upgrade(db) {
+          db.createObjectStore("Tournaments");
+        },
+      });
+      console.log("hoii")
+  
+    return await db.get("Tournaments", "accessToken");
 }
